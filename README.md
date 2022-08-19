@@ -35,20 +35,20 @@ ReactJs is an open-source, front end, JavaScript library for building user inter
 ## Features
 
 1. Home screen with vehicle registry.
-   ![Home Screen](./src/Images/HomeScreen.PNG)
+   ![Home Screen](./src/Images/HomeScreen.png)
 
 2. Add new Vehicle by dialog box.
-   ![New Vehicle Dialog](./src/Images/NewVehicleDialog.PNG)
+   ![New Vehicle Dialog](./src/Images/NewVehicleDialog.png)
 
 3. Warning when try to Add new Vehicle without unique id.
-   ![No Id Warning](./src/Images/NoIdWarning.PNG)
+   ![No Id Warning](./src/Images/NoIdWarning.png)
 
 4. Edit Vehicle by dialog box.
-   ![Edit Vechile Dialog](./src/Images/EditVehicleDialog.PNG)
+   ![Edit Vechile Dialog](./src/Images/EditVehicleDialog.png)
 
 5. Add and edit use same dialog box.
 
 6. Delete conformation Dialog box.
-   ![Delete Vechile Conformation Dialog](./src/Images/DeleteConformation.PNG)
+   ![Delete Vechile Conformation Dialog](./src/Images/DeleteConformation.png)
 
 7. Vehicles and equipments are loaded from supplied json file.
