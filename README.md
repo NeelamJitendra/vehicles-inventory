@@ -4,9 +4,9 @@ ReactJs is an open-source, front end, JavaScript library for building user inter
 
 ## Installation
 
-1)Use the package manager [NodeJs](https://nodejs.org/en/download/) to install NodeJs on your machine.
+1. Use the package manager [NodeJs](https://nodejs.org/en/download/) to install NodeJs on your machine.
 
-2)Verify Installation by opening a command prompt (or PowerShell), and enter the following: 'npm –v'
+2. Verify Installation by opening a command prompt (or PowerShell), and enter the following: 'npm –v'
 
 3. For installing application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
@@ -16,7 +16,7 @@ ReactJs is an open-source, front end, JavaScript library for building user inter
 
 ## Usage
 
-1)For starting application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
+1. For starting application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
 2. Then type 'npm start' and enter to start application.
 
@@ -26,7 +26,7 @@ ReactJs is an open-source, front end, JavaScript library for building user inter
 
 ## Testing
 
-1)For testing application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
+1. For testing application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
 2. Then type 'npm test' and enter to start testing application.
 
@@ -40,7 +40,7 @@ ReactJs is an open-source, front end, JavaScript library for building user inter
 2. Add new Vehicle by dialog box.
    ![New Vehicle Dialog](./src/Images/NewVehicleDialog.png)
 
-3. Warning when try to Add new Vehicle without unique id.
+3. Warning when user try to Add new Vehicle without unique id.
    ![No Id Warning](./src/Images/NoIdWarning.png)
 
 4. Edit Vehicle by dialog box.
