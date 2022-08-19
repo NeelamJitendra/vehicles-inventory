@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+## Programming Languages used ReactJs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ReactJs is an open-source, front end, JavaScript library for building user interfaces or UI components.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+1)Use the package manager [NodeJs](https://nodejs.org/en/download/) to install NodeJs on your machine.
 
-### `npm start`
+2)Verify Installation by opening a command prompt (or PowerShell), and enter the following: 'npm –v'
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. For installing application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. Then type 'npm install' and enter to download all dependecies for application.
 
-### `npm test`
+5. yippee you have completed installation and ready to run application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
 
-### `npm run build`
+1)For starting application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Then type 'npm start' and enter to start application.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. The application will automatically open the web page.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Enjoy the page.
 
-### `npm run eject`
+## Testing
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1)For testing application open your Command Prompt and then go to the repository on your machine (Example: cd ..your location..\vehicles-inventory)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Then type 'npm test' and enter to start testing application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. The application testing status will be shown in Command Prompt.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Features
 
-## Learn More
+1. Home screen with vehicle registry.
+   ![Home Screen](./src/Images/HomeScreen.PNG)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Add new Vehicle by dialog box.
+   ![New Vehicle Dialog](./src/Images/NewVehicleDialog.PNG)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Warning when try to Add new Vehicle without unique id.
+   ![No Id Warning](./src/Images/NoIdWarning.PNG)
 
-### Code Splitting
+4. Edit Vehicle by dialog box.
+   ![Edit Vechile Dialog](./src/Images/EditVehicleDialog.PNG)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+5. Add and edit use same dialog box.
 
-### Analyzing the Bundle Size
+6. Delete conformation Dialog box.
+   ![Delete Vechile Conformation Dialog](./src/Images/DeleteConformation.PNG)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+7. Vehicles and equipments are loaded from supplied json file.
