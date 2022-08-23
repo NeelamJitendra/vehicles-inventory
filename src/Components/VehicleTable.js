@@ -1,22 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import equipments from '../DataFiles/equipments.json';
 import vehicles from '../DataFiles/vehicles.json';
-import checkMark from '../Images/CheckMark.png';
 import AddEditDialog from './AddEditDialog';
 import DeleteDialog from './DeleteDialog';
+import TableRowComp from './TableRowComp';
+import TableHeadComp from './TableHeadComp';
 import './VehicleTable.css';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Table from '@mui/material/Table';
 import { styled } from '@mui/material/styles';
 
@@ -37,17 +32,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     - Delete Vehicles from the list.
     - Edit the equipments attached to vehicle and its details.
  */
-export default class VehicleTable extends React.Component {
-  state = {
-    vehiclesList: [],
-    vehicleDetails: {},
-    openAED: false,
-    openDD: false,
-    columns: [],
-  };
+export default function VehicleTable() {
+  const [vehiclesList, setVehiclesList] = useState([]);
+  const [vehicleDetails, setVehicleDetails] = useState({});
+  const [openAED, setOpenAED] = useState(false);
+  const [openDD, setOpenDD] = useState(false);
+  const [columns, setColumns] = useState([]);
 
   // Adds equipmnet list to default list with actions and set state to columns
-  addColumn = (equipList) => {
+  const addColumn = (equipList) => {
     const fixedCol = [
       { id: 'id', label: 'Unique Id' },
       { id: 'name', label: 'Name' },
@@ -61,11 +54,11 @@ export default class VehicleTable extends React.Component {
       id: 'action',
       label: 'Action',
     });
-    this.setState({ columns: column });
+    setColumns(column);
   };
 
   // Adds equipmnet list to vehicle list and set state to vehicleList
-  addEquipment = (equipList, vehiList) => {
+  const addEquipment = (equipList, vehiList) => {
     const vehicleArray = vehiList.map((data) => {
       let Equipments = data.equipments;
       if (Equipments) {
@@ -81,179 +74,95 @@ export default class VehicleTable extends React.Component {
       }
       return data;
     });
-    this.setState({ vehiclesList: vehicleArray });
+    setVehiclesList(vehicleArray);
   };
 
-  componentDidMount = () => {
-    this.addEquipment(equipments, vehicles);
-    this.addColumn(equipments);
+  useEffect(() => {
+    addEquipment(equipments, vehicles);
+    addColumn(equipments);
+  }, []);
+
+  // Handle add new button click
+  const handleAddNew = () => {
+    setOpenAED(true);
+    setVehicleDetails({});
   };
 
-  // Add new button component
-  addNewButton = () => {
-    return (
-      <Button
-        variant="contained"
-        onClick={() => {
-          this.setState({ openAED: true, vehicleDetails: {} });
-        }}
-      >
-        Add New
-      </Button>
-    );
-  };
-
-  // Returns table cells components for table
-  tableCells = (column, row) => {
-    const value = row[column.id];
-    return (
-      <StyledTableCell align="center" key={column.id}>
-        {column.id === 'action' ? (
-          <div>
-            <IconButton
-              onClick={() => {
-                this.setState({ vehicleDetails: row, openAED: true });
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                this.setState({ vehicleDetails: row, openDD: true });
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ) : value === true ? (
-          <img className={'CheckImg'} src={checkMark} alt="Logo" />
-        ) : (
-          value
-        )}
-      </StyledTableCell>
-    );
+  // Handle click action for edit and delete buttons
+  const onClickActionButtons = (row, editButton) => {
+    editButton ? setOpenAED(true) : setOpenDD(true);
+    setVehicleDetails(row);
   };
 
   // Handles agree action on delete dialog
-  handleAgreeDD = (row) => {
-    const vehicleAry = [...this.state.vehiclesList];
+  const handleAgreeDD = (row) => {
+    const vehicleAry = [...vehiclesList];
     const index = vehicleAry.findIndex((x) => x.id === row.id);
     vehicleAry.splice(index, 1);
-    this.setState({ openDD: false, vehiclesList: vehicleAry });
+    setVehiclesList(vehicleAry);
+    setOpenDD(false);
   };
 
   // Handles close action on delete dialog
-  handleCloseDD = () => {
-    this.setState({ openDD: false });
+  const handleCloseDD = () => {
+    setOpenDD(false);
   };
 
   // Handles submit action on add and edit dialog
-  handleSubmitAED = (row) => {
-    const vehicleAry = [...this.state.vehiclesList];
+  const handleSubmitAED = (row) => {
+    const vehicleAry = [...vehiclesList];
     const index = vehicleAry.findIndex((x) => x.id === row.id);
     if (index !== -1) {
       vehicleAry[index] = row;
     } else {
       vehicleAry.push(row);
     }
-    this.setState({ openAED: false, vehiclesList: vehicleAry });
+    setVehiclesList(vehicleAry);
+    setOpenAED(false);
   };
 
   // Handles close action on add and edit dialog
-  handleCloseAED = () => {
-    this.setState({ openAED: false });
+  const handleCloseAED = () => {
+    setOpenAED(false);
   };
 
-  // Handle changes in text fields and update state vehicleDetails
-  handleChange = (event) => {
-    const name = event.target.name;
-    const vehicleDetailsObj = {
-      ...this.state.vehicleDetails,
-      [name]: event.target.value,
-    };
-    this.setState({ ...this.state, vehicleDetails: vehicleDetailsObj });
-  };
+  return (
+    <div>
+      <TableContainer sx={{ maxHeight: '80vh' }} component={Paper}>
+        <Table stickyHeader>
+          <TableHeadComp
+            StyledTableCell={StyledTableCell}
+            columns={columns}
+            handleAddNew={() => handleAddNew()}
+          />
+          <TableBody>
+            {vehiclesList &&
+              vehiclesList.map((row) => (
+                <TableRowComp
+                  key={row.id}
+                  StyledTableCell={StyledTableCell}
+                  columns={columns}
+                  row={row}
+                  onClickActionButtons={(e, k) => onClickActionButtons(e, k)}
+                />
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-  // Handle changes in checkboxes and update state vehicleDetails
-  handleChecked = (event) => {
-    const name = event.target.name;
-    const vehicleDetailsObj = {
-      ...this.state.vehicleDetails,
-      [name]: event.target.checked,
-    };
-    this.setState({ vehicleDetails: vehicleDetailsObj });
-  };
-  render() {
-    const vehiclesList = this.state.vehiclesList;
-    const vehicleDetails = this.state.vehicleDetails;
-    const openAED = this.state.openAED;
-    const openDD = this.state.openDD;
-    const columns = this.state.columns;
+      <AddEditDialog
+        openAED={openAED}
+        handleCloseAED={(e) => handleCloseAED(e)}
+        handleSubmitAED={(e) => handleSubmitAED(e)}
+        vehicleDetails={vehicleDetails}
+      />
 
-    return (
-      <div>
-        <TableContainer sx={{ maxHeight: '80vh' }} component={Paper}>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell
-                  align="center"
-                  colSpan={3}
-                >
-                  Vehicles Details
-                </StyledTableCell>
-                <StyledTableCell
-                  align="center"
-                  colSpan={5}
-                >
-                  Equipments
-                </StyledTableCell>
-                <StyledTableCell
-                  align="center"
-                  colSpan={5}
-                >
-                  {this.addNewButton()}
-                </StyledTableCell>
-              </TableRow>
-              <TableRow>
-                {columns.map((column) => (
-                  <StyledTableCell align="center" key={column.id}>
-                    {column.label}
-                  </StyledTableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {vehiclesList &&
-                vehiclesList.map((row) => {
-                  return (
-                    <TableRow hover tabIndex={-1} key={row.id}>
-                      {columns.map((column) => {
-                        return this.tableCells(column, row);
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <AddEditDialog
-          openAED={openAED}
-          handleCloseAED={() => this.handleCloseAED()}
-          handleSubmitAED={(e) => this.handleSubmitAED(e)}
-          handleChange={(e) => this.handleChange(e)}
-          handleChecked={(e) => this.handleChecked(e)}
-          vehicleDetails={vehicleDetails}
-        />
-
-        <DeleteDialog
-          openDD={openDD}
-          handleCloseDD={() => this.handleCloseDD()}
-          handleAgreeDD={(e) => this.handleAgreeDD(e)}
-          vehicleDetails={vehicleDetails}
-        />
-      </div>
-    );
-  }
+      <DeleteDialog
+        openDD={openDD}
+        handleCloseDD={handleCloseDD}
+        handleAgreeDD={(e) => handleAgreeDD(e)}
+        vehicleDetails={vehicleDetails}
+      />
+    </div>
+  );
 }

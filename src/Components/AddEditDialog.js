@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 
 import DialogContentText from '@mui/material/DialogContentText';
@@ -20,145 +20,150 @@ import Box from '@mui/material/Box';
     - Add new vehicles.
     - Edit the equipments attached to vehicle and its details.
  */
-export default class AddEditDialog extends React.Component {
+export default function AddEditDialog({
+  openAED,
+  handleCloseAED,
+  handleSubmitAED,
+  vehicleDetails,
+}) {
+  const [vehicleDetailsObj, setvehicleDetailsObj] = useState({});
+
+  const tittle =
+    Object.keys(vehicleDetailsObj).length === 0
+      ? 'Add new vehicle'
+      : 'Edit ' + vehicleDetailsObj.id + ' details';
+  const name = vehicleDetails ? vehicleDetails.name : '';
+  const uniqueId = vehicleDetails ? vehicleDetails.id : '';
+  const fuelType = vehicleDetails ? vehicleDetails.fuelType : '';
+
+  useEffect(() => {
+    setvehicleDetailsObj(vehicleDetails);
+  }, [vehicleDetails]);
+
+  // Returns checkbox components for dialog
+  const checkboxComp = () => {
+    const checkboxList = [
+      {
+        name: 'crane',
+        label: 'Crane',
+        value: vehicleDetails ? vehicleDetails.crane : false,
+      },
+      {
+        name: 'tachograph',
+        label: 'Tachograph',
+        value: vehicleDetails ? vehicleDetails.tachograph : false,
+      },
+      {
+        name: 'fireextinguisher',
+        label: 'Fire Extinguisher',
+        value: vehicleDetails ? vehicleDetails.fireextinguisher : false,
+      },
+      {
+        name: 'hook',
+        label: 'Hook',
+        value: vehicleDetails ? vehicleDetails.hook : false,
+      },
+      {
+        name: 'customequipment',
+        label: 'Custom Equipment',
+        value: vehicleDetails ? vehicleDetails.customequipment : false,
+      },
+    ];
+    return checkboxList.map((e, i) => (
+      <FormControlLabel
+        key={i}
+        control={
+          <Checkbox
+            name={e.name}
+            defaultChecked={e.value}
+            onChange={(e) => handleChecked(e)}
+          />
+        }
+        label={e.label}
+      />
+    ));
+  };
+
+  // Handle changes in text fields and update state vehicleDetailsObj
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const newObj = { ...vehicleDetailsObj, [name]: event.target.value };
+    setvehicleDetailsObj(newObj);
+  };
+
+  // Handle changes in checkboxes and update state vehicleDetailsObj
+  const handleChecked = (event) => {
+    const name = event.target.name;
+    const newObj = { ...vehicleDetailsObj, [name]: event.target.checked };
+    setvehicleDetailsObj(newObj);
+  };
+
   // Handle submit in dialog and alerts if there is no uniqueId
-  handleSubmit = (vehicleDetailsObj) => {
+  const handleSubmit = () => {
     if (vehicleDetailsObj.id !== undefined) {
-      this.props.handleSubmitAED(vehicleDetailsObj);
+      handleSubmitAED(vehicleDetailsObj);
     } else {
       alert('Each vehicle should have Unique Id');
     }
   };
 
-  render() {
-    const vehicleDetails = this.props.vehicleDetails;
-    const tittle =
-      Object.keys(vehicleDetails).length === 0
-        ? 'Add new vehicle'
-        : 'Edit ' + vehicleDetails.id + ' details';
-    const name = vehicleDetails ? vehicleDetails.name : '';
-    const uniqueId = vehicleDetails ? vehicleDetails.id : '';
-    const fuelType = vehicleDetails ? vehicleDetails.fuelType : '';
-    const crane = vehicleDetails ? vehicleDetails.crane : false;
-    const tachograph = vehicleDetails ? vehicleDetails.tachograph : false;
-    const fireextinguisher = vehicleDetails
-      ? vehicleDetails.fireextinguisher
-      : false;
-    const hook = vehicleDetails ? vehicleDetails.hook : false;
-    const customequipment = vehicleDetails
-      ? vehicleDetails.customequipment
-      : false;
-    return (
-      <div>
-        <Dialog
-          key={vehicleDetails.id}
-          open={this.props.openAED}
-          onClose={() => this.props.handleCloseAED()}
-          aria-labelledby="add-edit-dialog-title"
-          aria-describedby="add-edit-dialog-description"
-        >
-          <DialogTitle id="add-edit-dialog-title">{tittle}</DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              component={'span'}
-              id="add-edit-dialog-description"
+  return (
+    <div>
+      <Dialog
+        key={vehicleDetails.id}
+        open={openAED}
+        onClose={handleCloseAED}
+        aria-labelledby="add-edit-dialog-title"
+        aria-describedby="add-edit-dialog-description"
+      >
+        <DialogTitle id="add-edit-dialog-title">{tittle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            component={'span'}
+            id="add-edit-dialog-description"
+          >
+            <Box
+              component="form"
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete="off"
             >
-              <Box
-                component="form"
-                sx={{
-                  '& .MuiTextField-root': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <span>
-                  <TextField
-                    name="id"
-                    label="Unique Id"
-                    variant="outlined"
-                    required={true}
-                    defaultValue={uniqueId}
-                    disabled={uniqueId !== undefined}
-                    onBlur={(e) => this.props.handleChange(e)}
-                  />
-                  <TextField
-                    name="name"
-                    label="Name"
-                    variant="outlined"
-                    defaultValue={name}
-                    onChange={(e) => this.props.handleChange(e)}
-                  />
-                  <TextField
-                    name="fuelType"
-                    label="Fuel Type"
-                    variant="outlined"
-                    defaultValue={fuelType}
-                    onChange={(e) => this.props.handleChange(e)}
-                  />
-                </span>
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="crane"
-                        defaultChecked={crane}
-                        onChange={(e) => this.props.handleChecked(e)}
-                      />
-                    }
-                    label="Crane"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="tachograph"
-                        defaultChecked={tachograph}
-                        onChange={(e) => this.props.handleChecked(e)}
-                      />
-                    }
-                    label="Tachograph"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="fireextinguisher"
-                        defaultChecked={fireextinguisher}
-                        onChange={(e) => this.props.handleChecked(e)}
-                      />
-                    }
-                    label="Fire Extinguisher"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="hook"
-                        defaultChecked={hook}
-                        onChange={(e) => this.props.handleChecked(e)}
-                      />
-                    }
-                    label="Hook"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="customequipment"
-                        defaultChecked={customequipment}
-                        onChange={(e) => this.props.handleChecked(e)}
-                      />
-                    }
-                    label="Custom Equipment"
-                  />
-                </FormGroup>
-              </Box>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => this.props.handleCloseAED()}>Cancel</Button>
-            <Button onClick={() => this.handleSubmit(vehicleDetails)}>
-              Submit
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+              <span>
+                <TextField
+                  name="id"
+                  label="Unique Id"
+                  variant="outlined"
+                  required={true}
+                  defaultValue={uniqueId}
+                  disabled={uniqueId !== undefined}
+                  onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                  name="name"
+                  label="Name"
+                  variant="outlined"
+                  defaultValue={name}
+                  onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                  name="fuelType"
+                  label="Fuel Type"
+                  variant="outlined"
+                  defaultValue={fuelType}
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
+              <FormGroup>{checkboxComp()}</FormGroup>
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAED}>Cancel</Button>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
